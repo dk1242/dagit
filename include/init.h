@@ -3,7 +3,8 @@
 #include "repo.h"
 
 int init(int argc, char* argv[]){
-    Repo repo = Repo::createRepo(argv);
+    Repo repo(argv[1]);
+    repo.createRepo(repo, argv[1]);
     // string da_git_name = ".git";
 
     // if(mkdir(".git", 0777) == -1){
@@ -58,6 +59,6 @@ int init(int argc, char* argv[]){
     // const char *path_rh = path_ref_heads.c_str();
     // mkdir(path_rh, 0777);
     
-    // return 0;
+    return 0;
 
 }

@@ -1,3 +1,4 @@
 git:
 	@echo "Building dagit"
-	@g++ main.cpp -o dagit
+	@g++ -c *.cpp
+	@g++ *.o -o dagit

@@ -2,15 +2,16 @@
 #include <string>
 #include <iostream>
 #include <filesystem>
-
+#include <cassert>
+using namespace std;
 Repo::Repo(){
     std::cout<<"Repo object Initialised\n";
 }
 
-Repo::Repo(string &path){
+Repo::Repo(char* &path){
     std::cout<<"Repo object Initialised with "<< path<<"\n";
     this->worktree = path;
-    this->gitdir = (std::filesystem::path(path) / ".git").string();
+    this->gitdir = (std::filesystem::path(path) / "git").string();
 }
 
 void Repo::printRepo()
@@ -20,18 +21,18 @@ void Repo::printRepo()
     std::cout<<"git dir: "<<gitdir<<"\n";
 }
 
-string Repo::repoPath(Repo &repo, string &path)
+string Repo::repoPath(Repo &repo, char* &path)
 {
-    return repo->gitdir + path;
+    return repo.gitdir + path;
 }
 
-string Repo::repoDir(Repo &repo, string &path, bool mkdir = false)
+string Repo::repoDir(Repo &repo, const char* path, bool mkdir = false)
 {
     if (std::filesystem::exists(path)) {
         if (std::filesystem::is_directory(path)) {
             return path;
         } else {
-            throw std::runtime_error("Not a directory " + path);
+            throw std::runtime_error("Not a directory " + string(path));
         }
     }
     if (mkdir) {
@@ -42,16 +43,18 @@ string Repo::repoDir(Repo &repo, string &path, bool mkdir = false)
     }
 }
 
-string Repo::repoFile(Repo &repo, string &path, bool mkdir = false)
+string Repo::repoFile(Repo &repo, char* &path, bool mkdir = false)
 {
-    if(repoDir(repo, path[:-1], mkdir))
+    string rPath = string(path);
+    rPath = rPath.substr(0, rPath.size()-1);
+
+    if(repoDir(repo, rPath.c_str(), mkdir) != "")
         return repoPath(repo, path);
     return NULL;
 }
 
-Repo Repo::createRepo(string &path){
-    Repo r = new Repo(path);
-
+void Repo::createRepo(Repo &repo, char* &path){
+    std::cout<<"worktree";
     if (std::filesystem::exists(worktree)) {
         if (!std::filesystem::is_directory(worktree)) {
             throw std::runtime_error(worktree + " is not a directory!");
@@ -63,15 +66,15 @@ Repo Repo::createRepo(string &path){
         std::filesystem::create_directories(worktree);
     }
 
-    assert(repoDir(r, "branches", true));
-    assert(repoDir(r, "objects", true));
-    assert(repoDir(r, "refs", "tags", true));
-    assert(repoDir(r, "refs", "heads", true));
-    return r;
+    repoDir(repo, "branches", true);
+    repoDir(repo, "objects", true);
+    // assert(repoDir(r, "refs", "tags", true));
+    // assert(repoDir(r, "refs", "heads", true));
+    // return repo;
 }
 
 Repo::~Repo()
 {
-    this->worktree = NULL;
-    this->gitdir = NULL;
+    this->worktree = "";
+    this->gitdir = "";
 }

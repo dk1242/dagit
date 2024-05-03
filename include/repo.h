@@ -7,16 +7,16 @@
 
 class Repo
 {
-    string worktree = "";
-    string gitdir = "";
+    std::string worktree = "";
+    std::string gitdir = "";
 public:
     Repo();
-    Repo(string &path);
+    Repo(char* &path);
     void printRepo();
-    string repoPath(Repo &repo, string &path);
-    string repoDir(Repo &repo, string &path, bool mkdir);
-    string repoFile(Repo &repo, string &path, bool mkdir);
-    Repo createRepo(string &path);
+    std::string repoPath(Repo &repo, char* &path);
+    std::string repoDir(Repo &repo, const char* path, bool mkdir);
+    std::string repoFile(Repo &repo, char* &path, bool mkdir);
+    void createRepo(Repo &repo, char* &path);
     ~Repo();
 };
 
