@@ -11,12 +11,13 @@ class Repo
     std::string gitdir = "";
 public:
     Repo();
-    Repo(char* &path);
+    Repo(const char* path);
     void printRepo();
-    std::string repoPath(Repo &repo, char* &path);
-    std::string repoDir(Repo &repo, const char* path, bool mkdir);
-    std::string repoFile(Repo &repo, char* &path, bool mkdir);
-    void createRepo(Repo &repo, char* &path);
+    std::string repoPath(Repo *repo, const char* path);
+    std::string repoDir(Repo *repo, const char* path, bool mkdir = false);
+    std::string repoFile(Repo *repo, const char* path, bool mkdir = false);
+    void createRepo(Repo *repo, const char* path);
+    Repo* findRepo(const char* path = ".", bool required = true);
     ~Repo();
 };
 

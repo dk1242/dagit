@@ -1,4 +1,4 @@
 git:
 	@echo "Building dagit"
-	@g++ -c *.cpp
-	@g++ *.o -o dagit
+	@g++ -c *.cpp **/*.cpp
+	@g++ *.o -o dagit -lz -lssl -lcrypto

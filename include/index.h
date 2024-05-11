@@ -1,2 +1,2 @@
 #include "init.h"
-#include "repo.h"
+#include "cat_file.h"

@@ -3,8 +3,10 @@
 #include "repo.h"
 
 int init(int argc, char* argv[]){
-    Repo repo(argv[1]);
-    repo.createRepo(repo, argv[1]);
+    string currentDir = std::filesystem::current_path();
+    Repo* repo = new Repo(currentDir.c_str());
+    repo->createRepo(repo, currentDir.c_str());
+    // Repo* nr = repo->findRepo(currentDir.c_str());
     // string da_git_name = ".git";
 
     // if(mkdir(".git", 0777) == -1){
